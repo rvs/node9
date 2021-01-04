@@ -174,6 +174,7 @@ void readline(uv_async_t* key_wake)
 {
     char ch;
 
+keep:
     if(qread(kbdq, &ch, 1) == 0) {
          print("null char\n");
     }
@@ -215,6 +216,8 @@ void readline(uv_async_t* key_wake)
             kbd.x = 0;
         }
     }
+    if (qlen(kbdq))
+        goto keep;
 }
 
 void kbd_alloc(uv_handle_t* handle, size_t suggested_size, uv_buf_t* buf) {
